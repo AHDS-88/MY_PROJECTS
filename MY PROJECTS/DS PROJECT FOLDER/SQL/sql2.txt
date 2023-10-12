@@ -1,0 +1,54 @@
+USE my_database;
+SELECT * FROM employee;
+================================================================================
+Display MAX and 2nd MAX SALARY from the EMPLOYEE table.
+-----------------------------------------------------------
+SELECT MAX(salary) AS max_salary,
+    (SELECT salary 
+     FROM employee 
+     WHERE salary < (SELECT MAX(salary) FROM employee) 
+     ORDER BY salary DESC
+     LIMIT 1) AS second_max_salary
+FROM employee;
+================================================================================
+
+
+
+Compute average, minimum and maximum salaries of the group of employees having the job of ANALYST.
+---------------------------------------------------------------------------------------------
+SELECT AVG(salary) AS average_salary,
+       MIN(salary) AS minimum_salary,
+       MAX(salary) AS maximum_salary
+FROM employee
+WHERE job = 'ANAL';
+=====================================================================================================
+
+
+
+Display the TOTAL SALARY drawn by an analyst working in dept no 20
+---------------------------------------------------------------------
+
+SELECT SUM(salary) AS total_salary
+FROM employee
+WHERE job = 'ANAL'
+AND deptcode = 20;
+==========================================================================================
+
+
+Create a query that displays EMPFNAME, EMPLNAME, DEPTCODE, DEPTNAME, LOCATION from EMPLOYEE, and DEPARTMENT tables. Make sure the results are in the ascending order based on the EMPFNAME and LOCATION of the department.
+----------------------------------------------------------------------------
+SELECT empfname, empiname, department.deptcode, deptname, location
+FROM employee
+INNER JOIN department
+ON employee.deptcode = department.deptcode
+ORDER BY empfname, location;
+========================================================================================
+
+
+Display Employee First name and “TOTAL SALARY” for each employee
+------------------------------------------------------------------------
+SELECT empfname, SUM(salary) AS total_salary
+FROM employee
+GROUP BY empfname;
+======================================================================================
+
